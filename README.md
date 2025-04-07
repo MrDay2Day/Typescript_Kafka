@@ -1,6 +1,6 @@
 # TypeScript Kafka® Example with Confluent's JavaScript Client
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/confluentinc/confluent-kafka-javascript?tab=MIT-1-ov-file)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)]([https://github.com/confluentinc/confluent-kafka-javascript?tab=MIT-1-ov-file](https://github.com/confluentinc/confluent-kafka-javascript?tab=MIT-1-ov-file))
 [![GitHub release](https://img.shields.io/github/v/release/confluentinc/confluent-kafka-javascript)](https://github.com/confluentinc/confluent-kafka-javascript/releases)
 
 A comprehensive example demonstrating how to use Confluent's JavaScript Client for Apache Kafka® (CJSK) with TypeScript. This project showcases real-world implementation of Kafka producers, consumers, admin operations, and Schema Registry integration.
