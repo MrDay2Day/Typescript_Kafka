@@ -3,14 +3,6 @@ import GetKafkaInstance from "./config/Config";
 import { OrderType, topic } from "./schema/Order";
 import RegistryClient from "./schema/Config";
 
-const orderInfo: OrderType = {
-  region: "CA",
-  item_type: "accessory",
-  item_id: "Item_34",
-  order_id: 105,
-  units: 2,
-};
-
 const avroSerializerConfig = { useLatestVersion: true };
 
 const serializer = new AvroSerializer(
@@ -20,21 +12,38 @@ const serializer = new AvroSerializer(
 );
 
 const kafka = GetKafkaInstance();
-const producer = kafka.producer();
+const producer = kafka.producer({
+  "compression.codec": "gzip",
+  "retry.backoff.ms": 200,
+  "message.send.max.retries": 10,
+  "socket.keepalive.enable": true,
+  "queue.buffering.max.messages": 100000,
+  "queue.buffering.max.ms": 1000,
+  "batch.num.messages": 1000000,
+  dr_cb: true,
+});
 
 async function producerStart() {
   try {
-    const outgoingMessage = {
-      key: "user_id",
-      value: await serializer.serialize(topic, orderInfo),
-    };
-
     await producer.connect();
     console.log("Connected successfully");
 
     let count = 0;
 
     setInterval(async () => {
+      const orderInfo: OrderType = {
+        region: "CA",
+        item_type: "accessory",
+        item_id: "Item_34",
+        order_id: 1035325 + count,
+        units: 10000000 + count,
+      };
+
+      const outgoingMessage = {
+        key: "user_id",
+        value: await serializer.serialize(topic, orderInfo),
+      };
+
       await producer.send({
         topic,
         messages: [outgoingMessage],
