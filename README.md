@@ -153,7 +153,7 @@ process.on("SIGTERM", shutdown);
 
 ## License
 
-[MIT](./LICENSE.md)
+[MIT](./LICENSE)
 
 ## Author
 
