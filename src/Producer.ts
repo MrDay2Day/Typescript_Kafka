@@ -21,11 +21,15 @@ const producer = kafka.producer({
   "queue.buffering.max.ms": 1000,
   "batch.num.messages": 1000000,
   dr_cb: true,
+  // Transactional Messages - To send once and only once to a topic
+  "enable.idempotence": true,
+  // "transactional.id": "unique-producer-id-for-transactions",
 });
 
 async function producerStart() {
   try {
     await producer.connect();
+    // await producer.transaction();
     console.log("Connected successfully");
 
     let count = 0;
@@ -50,7 +54,7 @@ async function producerStart() {
       });
       count++;
       console.log(`Message Sent: ${count} - Message: `, outgoingMessage);
-    }, 1000);
+    }, 500);
   } catch (error) {
     console.log("Producer Error: ", error);
   }

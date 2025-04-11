@@ -6,7 +6,12 @@ import { OrderType, topic as theTopic } from "./schema/Order";
 const deserializer = new AvroDeserializer(RegistryClient, SerdeType.VALUE, {});
 
 const kafka = GetKafkaInstance();
-const consumer = kafka.consumer({ "group.id": "consumer-group-1" });
+const consumer = kafka.consumer({
+  "group.id": "consumer-group-1",
+  // Transactional Messages - To consumer a specific message once and only once from a topic
+  "isolation.level": "read_committed",
+  "client.id": "unique-client-id-for-transactions",
+});
 async function consumerStart(): Promise<void> {
   try {
     await consumer.connect();
