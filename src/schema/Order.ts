@@ -1,5 +1,5 @@
 import { topic } from "../config/Config";
-const schemaString = JSON.stringify({
+const orderSchemaString = JSON.stringify({
   type: "record",
   name: "Order",
   fields: [
@@ -19,9 +19,9 @@ export type OrderType = {
   units: number;
 };
 
-const schemaInfo = {
+const orderSchemaInfo = {
   schemaType: "AVRO",
-  schema: schemaString,
+  schema: orderSchemaString,
 };
 
-export { schemaInfo, topic };
+export { orderSchemaInfo, topic };

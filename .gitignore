@@ -1,1 +1,8 @@
 node_modules
+
+docker/broker-1
+docker/broker-1
+docker/broker-2
+
+docker/questdb
+docker/timescaledb

@@ -3,12 +3,12 @@ import {
   ITopicConfig,
 } from "@confluentinc/kafka-javascript/types/kafkajs";
 import GetKafkaInstance from "./config/Config";
-import { topic as demoTopic } from "./schema/Order";
+import { topic as demoTopic } from "./schema/Trade";
 
 const topics = [{ topic: demoTopic, partitions: 15 }];
 
 async function adminStart() {
-  const kafka = GetKafkaInstance();
+  const kafka = GetKafkaInstance("admin");
   const admin = kafka.admin();
   try {
     await admin.connect();
@@ -29,6 +29,7 @@ async function adminStart() {
         const configEntries: IResourceConfigEntry[] = [
           { name: "cleanup.policy", value: "delete" }, // Default cleanup policy - When cleaning up data based on data retention policy is to delete.
           // { name: "retention.bytes", value: "104857600" }, // 100 MB Limit
+          // OR
           // { name: "retention.ms", value: "86400000" }, // 1 day
           {
             name: "retention.ms",

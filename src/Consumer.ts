@@ -1,11 +1,11 @@
 import { AvroDeserializer, SerdeType } from "@confluentinc/schemaregistry";
 import GetKafkaInstance from "./config/Config";
 import RegistryClient from "./schema/Config";
-import { OrderType, topic as theTopic } from "./schema/Order";
+import { TradeType, topic as theTopic } from "./schema/Trade";
 
 const deserializer = new AvroDeserializer(RegistryClient, SerdeType.VALUE, {});
 
-const kafka = GetKafkaInstance();
+const kafka = GetKafkaInstance("consumer");
 const consumer = kafka.consumer({
   "group.id": "consumer-group-1",
   // Transactional Messages - To consumer a specific message once and only once from a topic
@@ -32,12 +32,16 @@ async function consumerStart(): Promise<void> {
           } = message;
           const decodedMessage = {
             key: key?.toString(),
-            value: (await deserializer.deserialize(topic, value!)) as OrderType,
+            value: (await deserializer.deserialize(topic, value!)) as TradeType,
           };
           console.log(
-            `\nTopic: ${topic} \nPartition: ${partition} \nSize: ${size} \nOffset: ${offset} \nTimestamp: ${new Date(
-              parseInt(timestamp)
-            )} \nSerialized Value: ${value}`
+            `Message:
+            \n\t >> Topic: ${topic} 
+            \n\t >> Partition: ${partition} 
+            \n\t >> Size: ${size} 
+            \n\t >> Offset: ${offset} 
+            \n\t >> Timestamp: ${new Date(parseInt(timestamp))} 
+            \n\t >> Serialized Value: ${value}`
           );
           console.log("Decoded message", decodedMessage);
         } catch (error) {

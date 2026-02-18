@@ -3,22 +3,27 @@ import { CommonConstructorConfig } from "@confluentinc/kafka-javascript/types/ka
 
 const { Kafka } = KafkaJS;
 
-const kafkaConfig: CommonConstructorConfig = {
-  kafkaJS: {
-    brokers: ["localhost:9092", "localhost:9093"],
-    // ssl: true,
-    // sasl: {
-    //   mechanism: "plain",
-    //   username: "<API_KEY>",
-    //   password: "API_SECRET",
-    // },
-  },
+const kafkaConfig = (client_name: string): CommonConstructorConfig => {
+  return {
+    kafkaJS: {
+      clientId: client_name,
+      brokers: [
+        "localhost:9092", "localhost:9093"
+      ],
+      // ssl: true,
+      // sasl: {
+      //   mechanism: "plain",
+      //   username: "<API_KEY>",
+      //   password: "API_SECRET",
+      // },
+    },
+  }
 };
 
-function GetKafkaInstance() {
-  return new Kafka(kafkaConfig);
+function GetKafkaInstance(client_name: string) {
+  return new Kafka(kafkaConfig(client_name));
 }
 
-export const topic = "orders-topic";
+export const topic = "trades";
 
 export default GetKafkaInstance;
