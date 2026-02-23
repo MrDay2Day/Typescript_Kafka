@@ -4,8 +4,9 @@ import {
 } from "@confluentinc/kafka-javascript/types/kafkajs";
 import GetKafkaInstance from "./config/Config";
 import { topic as demoTopic } from "./schema/Trade";
+import { oversTopic } from "./Stream";
 
-const topics = [{ topic: demoTopic, partitions: 15 }];
+const topics = [{ topic: demoTopic, partitions: 15 }, { topic: oversTopic, partitions: 15 }];
 
 async function adminStart() {
   const kafka = GetKafkaInstance("admin");
