@@ -56,7 +56,7 @@ async function producerStart() {
       });
       count++;
       console.log(`Message Sent: ${count} - Message: `, outgoingMessage);
-    }, 10);
+    }, 1500);
   } catch (error) {
     console.log("Producer Error: ", error);
   }

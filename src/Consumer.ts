@@ -2,6 +2,7 @@ import { AvroDeserializer, SerdeType } from "@confluentinc/schemaregistry";
 import GetKafkaInstance from "./config/Config";
 import RegistryClient from "./schema/Config";
 import { TradeType, topic as theTopic } from "./schema/Trade";
+import { oversTopic } from "./Stream";
 
 const deserializer = new AvroDeserializer(RegistryClient, SerdeType.VALUE, {});
 
@@ -15,7 +16,7 @@ const consumer = kafka.consumer({
 async function consumerStart(): Promise<void> {
   try {
     await consumer.connect();
-    await consumer.subscribe({ topic: theTopic });
+    await consumer.subscribe({ topics: [theTopic, oversTopic] });
 
     console.log("Connected Consumer successfully");
 
